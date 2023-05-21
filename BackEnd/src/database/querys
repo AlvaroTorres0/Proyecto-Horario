@@ -1,0 +1,107 @@
+TABLAS
+// TABLA ALUMNO
+CREATE TABLE alumno(
+    noControl INTEGER PRIMARY KEY,
+    nombreAlumno VARCHAR(35) NOT NULL,
+    apepatAlumno VARCHAR(35) NOT NULL,
+    apematAlumno VARCHAR(35) NOT NULL,
+    promedio DECIMAL(5,2) NOT NULL,
+    semestre DECIMAL(1,0) NOT NULL,
+    idCarreraAlumno VARCHAR(1) NOT NULL,
+    FOREIGN KEY (idCarreraAlumno) REFERENCES carrera (idCarrera)
+);
+
+// TABLA CARRERA
+CREATE TABLE carrera (
+    idCarrera VARCHAR(1) PRIMARY KEY,
+    nombreCarrera VARCHAR(50) NOT NULL,
+    especialidad VARCHAR(100) NOT NULL
+);
+
+// TABLA ESTATUS MATERIA
+CREATE TABLE estatusmateria(
+    claveEstatus VARCHAR(1) PRIMARY KEY,
+    estatus VARCHAR(50) NOT NULL    
+);
+
+// TABLA DOCENTE
+CREATE TABLE docente (
+    idDocente INTEGER PRIMARY KEY,
+    nombreDocente VARCHAR(35) NOT NULL,
+    apepatDocente VARCHAR(35) NOT NULL,
+    apematDocente VARCHAR(35) NOT NULL
+);
+
+// TABLA EDIFICIO
+CREATE TABLE edificio (
+    idEdificio VARCHAR(1) PRIMARY KEY,
+    ubicacion VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(150) NOT NULL
+);
+
+// TABLA PERIODO
+CREATE TABLE periodo (
+    idPeriodo VARCHAR(12) PRIMARY KEY,
+    nombrePeriodo VARCHAR(50) NOT NULL
+);
+
+// TABLA AULA
+CREATE TABLE aula (
+    numeroAula DECIMAL(2,0) NOT NULL,
+    idEdificioAula VARCHAR(1) NOT NULL,
+    descripcionAula VARCHAR(150) NOT NULL,
+    FOREIGN KEY (idEdificioAula) REFERENCES edificio (idEdificio)
+);
+
+// TABLA MATERIA
+CREATE TABLE materia (
+    claveMateria VARCHAR(8) PRIMARY KEY,
+    idCarreraMateria VARCHAR(1) NOT NULL,
+    nombreMateria VARCHAR(70) NOT NULL,
+    creditosMateria DECIMAL(2,0) NOT NULL,
+    horasMateria DECIMAL(2,0) NOT NULL,
+    FOREIGN KEY (idCarreraMateria) REFERENCES carrera (idCarrera)
+);
+
+// TABLA HORARIO GRUPO
+CREATE TABLE horariogrupo (
+    claveHorarioGrupo VARCHAR(20) NOT NULL,
+    noControlHorario INTEGER NOT NULL,
+    grupo DECIMAL(1,0) NOT NULL,
+    idDocenteHorario INTEGER NOT NULL,
+    claveMateriaHorario VARCHAR(8) NOT NULL,
+    dia VARCHAR(1) NOT NULL,
+    horaInicio TIME NOT NULL,
+    horaFin TIME NOT NULL,
+    idEdificioHorario VARCHAR(1) NOT NULL,
+    numeroAulaHorario DECIMAL(2,0) NOT NULL,
+    idPeriodoHorario VARCHAR(12) NOT NULL,
+    FOREIGN KEY (noControlHorario) REFERENCES alumno (noControl),
+    FOREIGN KEY (idDocenteHorario) REFERENCES docente (idDocente),
+    FOREIGN KEY (claveMateriaHorario) REFERENCES materia (claveMateria),
+    FOREIGN KEY (idEdificioHorario) REFERENCES edificio (idEdificio),
+    FOREIGN KEY (idPeriodoHorario) REFERENCES periodo (idPeriodo)
+);
+
+// TABLA HORARIO ALUMNO
+CREATE TABLE horarioalumno (
+    noControlHorarioAlumno INTEGER NOT NULL,
+    claveHorarioAlumno VARCHAR(8) NOT NULL,
+    claveMateriaAlumno VARCHAR(8) NOT NULL,
+    FOREIGN KEY (noControlHorarioAlumno) REFERENCES alumno (noControl),
+    FOREIGN KEY (claveMateriaAlumno) REFERENCES materia (claveMateria)
+);
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+INSERTS
+INSERT INTO docente (iddocente,nombredocente,apepatdocente,apematdocente) VALUES (1,'VENANCIO','BARCENAS','MARTINEZ'),(2,'MIRIAM','SANCHEZ','SANTAMARIA'),(3,'RUTH','HERNANDEZ','CASBIS'),(4,'MARGARITO','AGUILAR','VARGAS'),(5,'ILMERS MICHEL','GONZALEZ','FLORES'),(6,'VICTOR MANUEL','AYALA','LARA'),(7,'IRIS BERENICE','MANZANAREZ','ALCAZAR'),(8,'JOSE ARNULFO','CORONA','CALVARIO'),(9,'ALEJANDRO','SALVADOR','VARGAS'),(10,'JAHAZIEL','RAMOS','GONZALEZ'),(11,'DULCE ANAHI','PAMOS','MARTINEZ'),(12,'JOSUE IVAN','JAIMES','PEREZ'),(13,'IRIS CITLALI','CAMPOS','ROMERO'),(14,'LEONOR','ANGELES','HERNANDEZ'),(15,'LETICIA','MENDEZ','BLANCO'),(16,'JUAN ALBERTO','SALAS','VARGAS'),(17,'OSCAR','CABRERA','FLORES'),(18,'GISELA','VEGA','TORRES'),(19,'GUILLERMO','URZUA','SANCHEZ'),(20,'VALERIA JESICA','BRAVO','HERNANDEZ');
+INSERT INTO carrera (idcarrera,nombrecarrera,especialidad) VALUES ('1','INGENIERIA EN SISTEMAS COMPUTACIONALES','SERVICIOS WEB EN LA INDUSTRIA'),('2','INGENIERIA EN GESTION EMPRESARIAL','EMPRESAS INTERNACIONALES'),('3','INGENIERIA MECATRONICA','PROCESOS AUTOMATIZADOS'),('4','INGENIERIA ELECTRONICA','CIRCUITOS INTEGRADOS'),('5','CONTADOR PUBLICO','FINANZAS MERCANTILES');
+INSERT INTO alumno (nocontrol,nombrealumno,apepatalumno,apematalumno,promedio,semestre,idcarreraalumno) VALUES (18680695,'VERGARA','TEPEXPA','FATIMA TANAHIRI',95.34,11,'3'),(18680696,'VIDAL','JORDAN','ANDRES',83.78,11,'5'),(21680081,'GARCIA','ROMERO','JOEL',89.90,3,'1'),(21680086,'GONZALEZ','ALMAZO','MANUEL ALEJANDRO',95.34,11,'3'),(18090240,'JUAREZ','BUSTOS','ANGEL ALFONSO',91.00,10,'4'),(21680154,'REYNOSO','ILLESCAS','JESSICA',75.97,3,'3'),(21680159,'RIVERA','ORTIZ','JUAN ALBERTO',93.50,3,'1'),(19680263,'TELLEZ','FLORES','LUIS RAUL',96.91,7,'2'),(21680185,'TEOFILO','GALLARDO','JOSEPH',82.17,3,'2'),(17680851,'ALMANZA','AQUINO','CARLOS YAIR',83.79,13,'1'),(19680088,'ALVARADO','ARAGON','FABIAN YAIR',79.45,7,'1'),(18680069,'ANDRADE','MARTINEZ','ALDEMAR',83.12,11,'1'),(19680096,'ARAGON','ARIZA','ERIK AXEL',82.43,7,'1'),(19680113,'CAMPOS','CASASANERO','JUAN PABLO',82.53,7,'3'),(19680126,'MORALES','GARCIA','RODRIGO JOSAFA',84.70,5,'4'),(19680133,'DIAZ','DE JESUS','MARIANA DAZZLING',81.15,7,'3'),(19680162,'GUTIERREZ','VALLE','SAMARA',93.27,7,'5');
+INSERT INTO materia (clavemateria,idcarreramateria,nombremateria,creditosmateria,horasmateria) VALUES ('1R8','1','PROGRAMACION LOGICA Y FUNCIONAL',4,4),('6R7','1','SISTEMAS PROGRAMABLES',4,4),('3R7','1','TALLER DE INVESTIGACION 1',4,4),('2SW','1','SERVICIOS WEB',4,4),('4R8','1','PROGRAMACION WEB',5,5),('1U6','5','CONTABILIDAD INTERNACIONAL',4,4),('2U6','5','GESTION Y TOMA DE DECISIONES',4,4),('6U7','5','TALLER DE INFROMATICA 2',4,4),('4U6','5','IMPUESTOS PERSONAS FISICAS',4,4),('6U6','5','ECONOMIA INTERNACIONAL',5,5),('4V6','4','MICROCONTROLADORES',4,4),('4V5','4','MAQUINAS ELECTRICAS',4,4),('3C1','4','PROGRAMACION AVANZADA DE INTERFACES',4,4),('3V5','4','TEORIA ELECTROMAGNETICA',4,5),('3V7','4','INSTRUMENTACION',5,4),('4F5','2','ESTADOS FINANCIEROS',4,4),('2F7','2','COMERCIO INTERNO',4,4),('2FS','2','RECURSOS HUMANOS',4,4),('6F8','2','MERCADOTECNIA',5,5),('5F3','2','CADENA DE SUMINISTROS',5,5),('9W3','3','DINAMICA',4,4),('8W5','3','TERMODINAMICA',4,4),('5W7','3','DISEÑO POR COMPUTADORA',4,4),('1WR','3','ESTATICA',4,4),('1W9','3','MECANICA DE MATERIALES Y MECANICA DE FLUIDOS',4,4);
+INSERT INTO periodo (idperiodo,nombreperiodo) VALUES ('AGO-DIC/2022','AGOSTO A DICIEMBRE DEL 2022'),('ENE-AGO/2022','ENERO A AGOSTO DEL 2022');
+INSERT INTO edificio (idedificio,ubicacion,descripcion) VALUES ('A','SUR','ENTRADA DEL PLANTEL'),('B','SUR','ENTRADA DEL PLANTEL'),('C','SUR','ENTRADA DEL PLANTEL'),('D','SUR','ENTRADA DEL PLANTEL'),('E','SUR','ZONA MEDIA DEL PLANTEL'),('F','NORTE','FONDO DEL PLANTEL'),('G','SUR','ZONA MEDIA DEL PLANTEL'),('H','NORTE','FONDO DEL PLANTEL'),('I','NORTE','FONDO DEL PLANTEL'),('J','NORTE','FONDO DEL PLANTEL'),('K','NORTE','FONDO DEL PLANTEL');
+INSERT INTO aula (numeroaula,idedificioaula,descripcionaula) VALUES ('1','A','AULA A1'),('2','A','AULA A2'),('3','A','AULA A3'),('4','A','AULA A4'),('5','A','AULA A5'),('1','B','AULA B1'),('2','B','AULA B2'),('3','B','AULA B3'),('4','B','AULA B4'),('5','B','AULA B5'),('1','C','AULA C1'),('2','C','AULA C2'),('3','C','AULA C3'),('4','C','AULA C4'),('5','C','AULA C5'),('1','D','AULA D1'),('2','D','AULA D2'),('3','D','AULA D3'),('4','D','AULA D4'),('5','D','AULA D5'),('1','E','AULA E1'),('2','E','AULA E2'),('3','E','AULA E3'),('4','E','AULA E4'),('5','E','AULA E5'),('1','F','AULA F1'),('2','F','AULA F2'),('3','F','AULA F3'),('4','F','AULA F4'),('5','F','AULA F5'),('1','G','AULA G1'),('2','G','AULA G2'),('3','G','AULA G3'),('4','G','AULA G4'),('5','G','AULA G5'),('1','H','AULA H1'),('2','H','AULA H2'),('3','H','AULA H3'),('4','H','AULA H4'),('5','H','AULA H5'),('1','I','AULA I1'),('2','I','AULA I2'),('3','I','AULA I3'),('4','I','AULA I4'),('5','I','AULA I5'),('1','J','AULA J1'),('2','J','AULA J2'),('3','J','AULA J3'),('4','J','AULA J4'),('5','J','AULA J5'),('1','K','AULA K1'),('2','K','AULA K2'),('3','K','AULA K3'),('4','K','AULA K4'),('5','K','AULA K5');
+INSERT INTO horariogrupo (clavehorariogrupo,noControlHorario,grupo,iddocentehorario,clavemateriahorario,dia,horainicio,horafin,idedificiohorario,numeroaulahorario,idperiodohorario) VALUES ('7-ISC-1', 19680096,1,'1','1R8','1','07:00:00','08:00:00','A',1,'AGO-DIC/2022'),('7-ISC-1', 19680096,1,'4','6R7','1','08:00:00','09:00:00','A',2,'AGO-DIC/2022'),('7-ISC-1', 19680096,1,'1','3R7','1','09:00:00','10:00:00','B',3,'AGO-DIC/2022'),('7-ISC-2', 19680096,2,'19','2SW','1','10:00:00','11:00:00','C',4,'AGO-DIC/2022'),('7-ISC-2', 19680096,2,'6','4R8','1','11:00:00','12:00:00','E',4,'AGO-DIC/2022'),('7-ISC-2', 19680096,2,'8','1U6','5','12:00:00','13:00:00','F',3,'AGO-DIC/2022');
+INSERT INTO horarioalumno (nocontrolhorarioalumno,clavehorarioalumno,clavemateriaalumno) VALUES ('19680096','7-ISC-1','1R8'),('19680096','7-ISC-1','6R7'),('19680096','7-ISC-1','3R7'),('19680096','7-ISC-2','2SW'),('19680096','7-ISC-2','4R8'),('19680096','7-ISC-2','1U6');
+

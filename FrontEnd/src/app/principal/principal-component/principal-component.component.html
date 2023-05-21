@@ -1,0 +1,49 @@
+<div class="principal" style="width: 100vw; height: 100vh;">
+    <div class="rowBotones">
+        <h1 class="title">Horarios</h1>
+        <nav class="nav nav-pills nav-fill">
+            <a class="nav-link btnNav" id="btnMostrarAlumno" (click)="activarBoton(0)" href="#">Buscar Alumno</a>
+            <a class="nav-link btnNav" id="btnBuscarProfesor" (click)="activarBoton(1)" href="#">Buscar Profesor</a>
+          </nav>
+    </div>
+
+    <!-- BUSCAR ALUMNO -->
+    <div class="row buscarAlumno" *ngIf="estados[0]">
+        <div class="rowRegistrar--item">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Número de control</span>
+                <input type="text" class="form-control registro soloTexto" id="numControl" aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="numControl">
+            </div>
+        </div>
+
+        <div class="rowRegistrar--item">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Hora de búsqueda</span>
+                <input id="appt-time" type="time" name="appt-time" step="2"  [(ngModel)]="hora"/>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" id="action" (click)="buscarAlumno()">Buscar Alumno</button>
+    </div>
+    
+
+    <!-- BUSCAR DOCENTE -->
+    <div class="row buscarDocente" *ngIf="estados[1]">
+        <div class="rowRegistrar--item">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">🔎</span>
+                <input type="text" class="form-control" placeholder="Clave del Profesor" aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="idDocente">
+            </div>
+        </div>
+
+        <div class="rowRegistrar--item">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Hora de búsqueda</span>
+                <input id="appt-time" type="time" name="appt-time" step="2"  [(ngModel)]="hora"/>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" id="action" (click)="buscarProfesor()">Buscar Profesor</button>
+        
+    </div>
+</div>
